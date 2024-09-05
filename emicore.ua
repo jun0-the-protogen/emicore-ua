@@ -21,60 +21,62 @@
       | ∘)
       ⇌)
 
+    ParseInstr ↚ ⨬(
+      # Place
+      ⍥⋅0 ⊸=NaN # -
+      ApTop[0∘]
+      # Place and change direction
+    | ⍥⋅0 ⊸=NaN # J
+      ApTop[[1 1][0∘]]
+    | ⍥⋅0 ⊸=NaN # L
+      ApTop[[1¯1][0∘]]
+      # Offsets perpendicular
+    | ⍤{0@^}⊸≠NaN # ^
+      ApTop[2∘]
+    | ⍤{0@v}⊸≠NaN # v
+      ApTop[2¯]
+      # Offset forward
+    | ⍤{0@>}⊸≠NaN # >
+      ApTop[3∘]
+      # Offset, perpendicular, direction changing
+    | ⍤{0@:}⊸≠NaN # :
+      ApTop[[2∘]⊙[1 2]]+2
+    | ⍤{0@,}⊸≠NaN # ,
+      ApTop[[2¯]⊙[1¯2]]+2
+
+      # Mirrors
+    | ⍥⋅0 ⊸=NaN # _
+      ⊙Mirror
+      ApTop⊂[0∘]
+    | ⍥⋅0 ⊸=NaN # /
+      ⊙Mirror
+      ApTop⊂[[1 1][0∘]]
+    | ⍥⋅0 ⊸=NaN # \
+      ⊙Mirror
+      ApTop⊂[[1¯1][0∘]]
+    | ⍤{0@=}⊸≠NaN # =
+      ⊙Mirror
+      ApTop⊂[[2∘]⊙[1 2]]+2
+    | ⍤{0@;}⊸≠NaN # ;
+      ⊙Mirror
+      ApTop⊂[[2¯]⊙[1¯2]]+2
+
+      # Repeat top of stack
+    | ⍥⋅0 ⊸=NaN # O
+      ⍜⊙(⊢△°□⊢⇌)×+1
+
+      # Stack operations
+    | ⍥⋅0 ⊸=NaN # (
+      ApTop[0∘]
+      ⊂⊙(□↯0_2[])
+    | ⍥⋅0 ⊸=NaN # )
+      ApTop[0∘]
+      ⍜(↙¯2|□/◇⊂)
+    )
+
     Pass₁ ← (
       °⊏⊙⊙($Stack {↯0_2[]})
-      ∧⋅⨬(
-        # Place
-        ⍥⋅0 ⊸=NaN # -
-        ApTop[0∘]
-        # Place and change direction
-      | ⍥⋅0 ⊸=NaN # J
-        ApTop[[1 1][0∘]]
-      | ⍥⋅0 ⊸=NaN # L
-        ApTop[[1¯1][0∘]]
-        # Offsets perpendicular
-      | ⍤{0@^}⊸≠NaN # ^
-        ApTop[2∘]
-      | ⍤{0@v}⊸≠NaN # v
-        ApTop[2¯]
-        # Offset forward
-      | ⍤{0@>}⊸≠NaN # >
-        ApTop[3∘]
-        # Offset, perpendicular, direction changing
-      | ⍤{0@:}⊸≠NaN # :
-        ApTop[[2∘]⊙[1 2]]+2
-      | ⍤{0@,}⊸≠NaN # ,
-        ApTop[[2¯]⊙[1¯2]]+2
-
-        # Mirrors
-      | ⍥⋅0 ⊸=NaN # _
-        ⊙Mirror
-        ApTop⊂[0∘]
-      | ⍥⋅0 ⊸=NaN # /
-        ⊙Mirror
-        ApTop⊂[[1 1][0∘]]
-      | ⍥⋅0 ⊸=NaN # \
-        ⊙Mirror
-        ApTop⊂[[1¯1][0∘]]
-      | ⍤{0@=}⊸≠NaN # =
-        ⊙Mirror
-        ApTop⊂[[2∘]⊙[1 2]]+2
-      | ⍤{0@;}⊸≠NaN # ;
-        ⊙Mirror
-        ApTop⊂[[2¯]⊙[1¯2]]+2
-
-        # Repeat top of stack
-      | ⍥⋅0 ⊸=NaN # O
-        ⍜⊙(⊢△°□⊢⇌)×+1
-
-        # Stack operations
-      | ⍥⋅0 ⊸=NaN # (
-        ApTop[0∘]
-        ⊂⊙(□↯0_2[])
-      | ⍥⋅0 ⊸=NaN # )
-        ApTop[0∘]
-        ⍜(↙¯2|□/◇⊂))
-      # just in case
+      ⍣∧⋅ParseInstr(⍤⊙0⨬($"Symbol _ requires a count"|)°□°⊟⋅⋅⋅:)
       /◇⊂)
 
     Pass₂ ← (
@@ -117,4 +119,3 @@ $ 4-1v1(1^1-4O)(1v1-2O)12=
 IonCore~Notation~Tokenize
 IonCore~Notation~Pass₁
 IonCore~Notation~Pass₂
-
